@@ -60,15 +60,10 @@ When we feed our sequences of word IDs into the model, each sequence needs to be
 > <img src="images/padding.png" width="50%" align="top-left" alt="" title="Tokenizer output" />
 
 ### One-Hot Encoding (not used)
-In this project, our input sequences will be a vector containing a series of integers. Each integer represents an English word (as seen above). However, in other projects, sometimes an additional step is performed to convert each integer into a one-hot encoded vector. We don't use one-hot encoding (OHE) in this project, but you'll see references to it in certain diagrams (like the one below). I just didn't want you to get confused.  
+In this project,  input sequences will be a vector containing a series of integers. Each integer represents an English word (as seen above).
 
 <img src="images/RNN-architecture.png" width="40%" align="right" alt="" title="RNN architecture" />
 
-One of the advantages of OHE is efficiency since it can [run at a faster clock rate than other encodings](https://en.wikipedia.org/wiki/One-hot#cite_note-2). The other advantage is that OHE better represents categorical data where there is no ordinal relationship between different values. For example, let's say we're classifying animals as either a mammal, reptile, fish, or bird. If we encode them as 1, 2, 3, 4 respectively, our model may assume there is a natural ordering between them, which there isn't. It's not useful to structure our data such that mammal comes before reptile and so forth. This can mislead our model and cause poor results. However, if we then apply one-hot encoding to these integers, changing them to binary representations&mdash;1000, 0100, 0010, 0001 respectively&mdash;then no ordinal relationship can be inferred by the model.
-
-But, one of the drawbacks of OHE is that the vectors can get very long and sparse. The length of the vector is determined by the vocabulary, i.e. the number of unique words in your text corpus. As we saw in the data examination step above, our vocabulary for this project is very small&mdash;only 227 English words and 355 French words. By comparison, the [Oxford English Dictionary has 172,000 words](https://en.oxforddictionaries.com/explore/how-many-words-are-there-in-the-english-language/). But, if we include various proper nouns, words tenses, and slang there could be millions of words in each language. For example, [Google's word2vec](http://mccormickml.com/2016/04/12/googles-pretrained-word2vec-model-in-python/) is trained on a vocabulary of 3 million unique words. If we used OHE on this vocabulary, the vector for each word would include one positive value (1) surrounded by 2,999,999 zeros!
-
-And, since we're using embeddings (in the next step) to further encode the word representations, we don't need to bother with OHE. Any efficiency gains aren't worth it on a data set this small.  
 
 
 ##### &nbsp;
@@ -100,17 +95,14 @@ Our sequence-to-sequence model links two recurrent networks: an encoder and deco
 
 <img src="images/encoder-decoder-context.png" width="60%" align="top-left" alt="" title="Encoder Decoder" />
 
-(https://classroom.udacity.com/nanodegrees/nd101/parts/4f636f4e-f9e8-4d52-931f-a49a0c26b710/modules/c1558ffb-9afd-48fa-bf12-b8f29dcb18b0/lessons/43ccf91e-7055-4833-8acc-0e2cf77696e8/concepts/be468484-4bd5-4fb0-82d6-5f5697af07da)_
-
 ##### &nbsp;
 
-Since both the encoder and decoder are recurrent, they have loops which process each part of the sequence at different time steps. To picture this, it's best to unroll the network so we can see what's happening at each time step.
+Since both the encoder and decoder are recurrent, they have loops which process each part of the sequence at different time steps. 
 
-In the example below, it takes four time steps to encode the entire input sequence. At each time step, the encoder "reads" the input word and performs a transformation on its hidden state. Then it passes that hidden state to the next time step. Keep in mind that the hidden state represents the relevant context flowing through the network. The bigger the hidden state, the greater the learning capacity of the model, but also the greater the computation requirements. We'll talk more about the transformations within the hidden state when we cover gated recurrent units (GRU).
+In the example below, it takes four time steps to encode the entire input sequence. At each time step, the encoder "reads" the input word and performs a transformation on its hidden state. Then it passes that hidden state to the next time step.  hidden state represents the relevant context flowing through the network. The bigger the hidden state, the greater the learning capacity of the model, but also the greater the computation requirements. 
 
 <img src="images/encoder-decoder-translation.png" width="100%" align="top-left" alt="" title="Encoder Decoder" />
 
-(https://classroom.udacity.com/nanodegrees/nd101/parts/4f636f4e-f9e8-4d52-931f-a49a0c26b710/modules/c1558ffb-9afd-48fa-bf12-b8f29dcb18b0/lessons/43ccf91e-7055-4833-8acc-0e2cf77696e8/concepts/f999d8f6-b4c1-4cd0-811e-4767b127ae50)_
 
 ##### &nbsp;
 
@@ -122,10 +114,6 @@ Also, remember that when we refer to a "word," we really mean the _vector repres
 
 ### Bidirectional Layer
 
-
-<img src="images/yoda.jpg" width="40%" align="right" alt="" title="Yoda" />
-
-
 To implement this, i train two RNN layers simultaneously. The first layer is fed the input sequence as-is and the second is fed a reversed copy.
 
 <img src="images/bidirectional.png" width="70%" align="center" alt="" title="Bidirectional Layer" />
@@ -133,15 +121,13 @@ To implement this, i train two RNN layers simultaneously. The first layer is fed
 ##### &nbsp;
 
 ### Hidden Layer &mdash; Gated Recurrent Unit (GRU)
-Now let's make our RNN a little bit smarter. Instead of allowing _all_ of the information from the hidden state to flow through the network, what if we could be more selective? Perhaps some of the information is more relevant, while other information should be discarded. This is essentially what a gated recurrent unit (GRU) does.
+makde our RNN a little bit smarter. Instead of allowing _all_ of the information from the hidden state to flow through the network, what if we could be more selective? Perhaps some of the information is more relevant, while other information should be discarded. This is essentially what a gated recurrent unit (GRU) does.
 
 There are two gates in a GRU: an update gate and reset gate. To summarize, the **update gate (z)** helps the model determine how much information from previous time steps needs to be passed along to the future. Meanwhile, the **reset gate (r)** decides how much of the past information to forget.
 
 ##### &nbsp;
 
 <img src="images/gru.png" width="70%" align-center="true" alt="" title="Gated Recurrent Unit (GRU)" />
-
-_(https://www.analyticsvidhya.com/blog/2017/12/introduction-to-recurrent-neural-networks/gru/)_
 
 ##### &nbsp;
 
