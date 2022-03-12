@@ -8,7 +8,7 @@
 ##### &nbsp;
 
 ## Goal
-In this project, we build a deep neural network that functions as part of a machine translation pipeline. The pipeline accepts English text as input and returns the French translation. The goal is to achieve the highest translation accuracy possible.
+In this project, i build a deep neural network that functions as part of a machine translation pipeline. The pipeline accepts English text as input and returns the French translation. The goal is to achieve the highest translation accuracy possible.
 
 
 ##### &nbsp;
