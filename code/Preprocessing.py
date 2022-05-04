@@ -7,7 +7,6 @@ from tensorflow.keras.preprocessing.sequence import pad_sequences
 class preprocessing:
 
     def load_data(self,path):
-
         """
         load data from disk
         :param path path of data
@@ -19,25 +18,23 @@ class preprocessing:
 
         return data.split('\n')
 
-    def tokenize(self, x):
-        """
-          Tokenize x
-          :param x: List of sentences/strings to be tokenized
-          :return: Tuple of (tokenized x data, tokenizer used to tokenize x)
-          """
+
+    def tokenize(self,x):
+        # TODO: Implement
         tokenizer = Tokenizer()
         tokenizer.fit_on_texts(x)
         # it return object->tokenizer and tokenize form of data(sentesces)
         return tokenizer.texts_to_sequences(x), tokenizer
 
 
-    def pad(self, x, length=None):
+    def pad(x, length=None):
         """
         Pad x
         :param x: List of sequences.
         :param length: Length to pad the sequence to.  If None, use length of longest sequence in x.
         :return: Padded numpy array of sequences
         """
+        # TODO: Implement
         return pad_sequences(x, maxlen=length, padding='post')
 
     def logits_to_text(self,logits, tokenizer):
@@ -47,17 +44,19 @@ class preprocessing:
         :param tokenizer: Keras Tokenizer fit on the labels
         :return: String that represents the text of the logits
         """
+
         index_to_words = {}
         for word, _id in tokenizer.word_index.items():
             index_to_words[_id] = word
         index_to_words[0] = '<PAD>'
 
-        res=[]
+        res = ""
         for prediction in np.argmax(logits, 1):
-            if prediction:
-                res.append(index_to_words[prediction])
+            if prediction != 0:
+                res = res + " " + index_to_words[prediction]
 
-        return ' '.join(res)
+        return res;
+
 
     def preprocess(self,x, y, en_max_len=None, fr_max_len=None):
         """

@@ -7,9 +7,9 @@ from tensorflow.keras.layers import Embedding
 
 
 
-class model:
+class ModelClass:
 
-    def train_model(self,input_shape, output_sequence_length, english_vocab_size,french_vocab_size):
+    def create_model(self,input_shape, output_sequence_length, english_vocab_size,french_vocab_size):
         """
         input_shpae=dimention of english data
 
@@ -40,7 +40,7 @@ class model:
         return model
 
 
-    def Compile_model(self,preproc_english_sentences_train,preproc_french_sentences_train, model):
+    def train_model(self,preproc_english_sentences_train,preproc_french_sentences_train, model):
         """
            preproc_english_sentences_train:english train data set in tokenize form
            preproc_french_sentences_train: french train data set in tokenize form
