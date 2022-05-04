@@ -43,5 +43,5 @@ def Compile_model(preproc_english_sentences_train,preproc_french_sentences_train
        preproc_english_sentences_train:english train data set in tokenize form
        preproc_french_sentences_train: french train data set in tokenize form
        """
-    model.fit(preproc_english_sentences_train, preproc_french_sentences_train,batch_size=1024, epochs=1, validation_split=0.2)
+    model.fit(preproc_english_sentences_train, preproc_french_sentences_train,batch_size=1024, epochs=25, validation_split=0.2)
     model.summary()

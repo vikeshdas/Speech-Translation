@@ -4,7 +4,7 @@ from tensorflow.keras.preprocessing.sequence import pad_sequences
 
 class predict_class:
 
-    def final_predictions(self,model, sentence, french_tokenizer, english_tokenizer,max_len):
+    def final_predictions(self, model, sentence, french_tokenizer, english_tokenizer, max_len):
         """
            Turn logits from a neural network into text using the tokenizer
            :param sentence: sequence of string or single sentence

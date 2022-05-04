@@ -14,11 +14,9 @@ class MainClass:
         with open('english_tokenizer.pickle', 'rb') as handle:
             self.english_tokenizer = pickle.load(handle)
 
-        self.max_len= np.load("max_len_arr.npy")
-        self.max_len.tolist()
-        self.max_len=self.max_len.item()
-
-
+        self.max_len = np.load("max_len_arr.npy").tolist()
+        # self.max_len.tolist()
+        # self.max_len=self.max_len.item()
 
 
     # prediction
