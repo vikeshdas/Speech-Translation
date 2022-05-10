@@ -14,14 +14,12 @@ class MainClass:
         with open('english_tokenizer.pickle', 'rb') as handle:
             self.english_tokenizer = pickle.load(handle)
 
-        self.max_len = np.load("max_len_arr.npy").tolist()
-        # self.max_len.tolist()
-        # self.max_len=self.max_len.item()
+        self.max_len = np.load("max_len_arr.npy").tolist()[0]
 
 
     # prediction
     def predictsentence(self, sentence):
-        print("type os sentence is",type(sentence))
+        # print("type os sentence is",type(sentence))
         model = tf.keras.models.load_model("model")
         pred = predict_class()
         result = pred.final_predictions(model,sentence.lower(), self.french_tokenizer, self.english_tokenizer,self.max_len)

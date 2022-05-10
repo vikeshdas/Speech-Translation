@@ -1,13 +1,15 @@
+
 var startRecordingButton = document.getElementById("startRecordingButton");
 var stopRecordingButton = document.getElementById("stopRecordingButton");
 var playRecordedAudio = document.getElementById("playButton");
 var playResult = document.getElementById("resultButton");
 var Translate = document.getElementById("send");
-var speach_to_Text=document.getElementById("speach-text");
-var Text_to_Speach=document.getElementById("text-speach");
-var french_text=document.getElementById("transOutput");
+var speach_to_Text = document.getElementById("speach-text");
+var Text_to_Speach = document.getElementById("text-speach");
+var french_text = document.getElementById("transOutput");
 
-var txt="";
+var txt = "";
+var french_output = "";
 var leftchannel = [];
 var rightchannel = [];
 var recorder = null;
@@ -15,14 +17,19 @@ var recordingLength = 0;
 var volume = null;
 var mediaStream = null;
 var sampleRate = 44100;
-// var sampleRate = 16000; // keeping as 16000 for google speech to text api
+
 var context = null;
 var blob = null;
 var res_blob = null;
-var text_blob=null;
+var text_blob = null;
 
 
-startRecordingButton.addEventListener("click", function () {
+function startRecording() {
+    sampleRate = 44100;
+    res_blob = null;
+    text_blob = null;
+    french_output = "";
+    txt = "";
     blob = null;
     recorder = null;
     context = null;
@@ -30,8 +37,10 @@ startRecordingButton.addEventListener("click", function () {
     leftchannel = [];
     rightchannel = [];
     recordingLength = 0;
-
-    startRecordingButton.innerHTML = "Recording...";
+    // var startRecordingButton = document.getElementById("startRecordingButton");
+    startRecordingButton.style.backgroundColor = "#ffffff";
+    startRecordingButton.style.color = "#FF0000"
+    startRecordingButton.style.borderColor = "#000000"
     // Initialize recorder
     navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia;
     navigator.getUserMedia(
@@ -41,6 +50,10 @@ startRecordingButton.addEventListener("click", function () {
         function (e) {
             console.log("user consent");
 
+            document.getElementById("output").innerHTML = txt;
+            document.getElementsByClassName("loader")[0].style.display = "none";
+            document.getElementsByClassName("loader")[0].style.display = "none";
+            document.getElementById("transOutput").innerHTML = french_output;
             // creates the audio context
             window.AudioContext = window.AudioContext || window.webkitAudioContext;
             context = new AudioContext();
@@ -72,16 +85,22 @@ startRecordingButton.addEventListener("click", function () {
         function (e) {
             console.error(e);
         });
-});
+}
 
-stopRecordingButton.addEventListener("click", function () {
+
+
+function stopRecording() {
 
     // stop recording
+    if (context == null) {
+        alert("first start recording");
+        return;
+    }
     sampleRate = 44100;
     recorder.disconnect(context.destination);
     mediaStream.disconnect(recorder);
 
-  
+
     var leftBuffer = flattenArray(leftchannel, recordingLength);
     var rightBuffer = flattenArray(rightchannel, recordingLength);
     var interleaved = interleave(leftBuffer, rightBuffer);
@@ -118,86 +137,74 @@ stopRecordingButton.addEventListener("click", function () {
 
     // our final blob
     blob = new Blob([view], { type: 'audio/wav' });
-    startRecordingButton.innerHTML = "Recording";
-});
-
-playRecordedAudio.addEventListener("click", function () {
-    if (blob == null) {
-        alert("nothing to play")
-    }
+    startRecordingButton.style.backgroundColor = "#807d7d";
+    startRecordingButton.style.color = "#000000"
     var url = window.URL.createObjectURL(blob);
-    var audio = new Audio(url);
-    audio.play();
-});
+    playRecordedAudio.src = url;
+
+}
 
 
-playResult.addEventListener("click", function () {
-    if (res_blob == null) {
-        alert("nothing to play")
+async function speachToText(flag) {
+    if (blob == null) {
+        stopRecording();
     }
-    console.log("res_blob is not null");
-    var url = URL.createObjectURL(res_blob);
-    var audio = new Audio(url);
-    audio.play();
-});
-
-Translate.addEventListener("click", function () {
-   if(txt=="")
-   {
-       alert("Record Your Voice and Convert to Text Then Translate");
-   }
-   console.log(txt);
-    var xmlHttp = new XMLHttpRequest();
-    xmlHttp.open( "POST",'http://127.0.0.1:5000/translate', false );
-    xmlHttp.onprogress=function(){
-        console.log("on progress");
-    }
-    xmlHttp.onload = function() {
-        french_output = this.responseText
-        console.log(french_output);
-        document.getElementById("transOutput").innerHTML=french_output;
-      };
-    xmlHttp.send(txt);
-});
-
-speach_to_Text.addEventListener("click",function(){
-    if (blob == null) {    
-        alert("Record your voice to covert speach to text")
-    }
+    document.getElementsByClassName("loader")[0].style.display = "block";
     var data = new FormData();
     data.append("file", blob);
     var xmlHttp = new XMLHttpRequest();
-    xmlHttp.open( "POST",'http://127.0.0.1:5000/speach-text', false );  
+    xmlHttp.open("POST", 'http://127.0.0.1:8000/speach-text', flag);
 
-    xmlHttp.onprogress=function(){
-        console.log("on progress");
+    xmlHttp.onprogress = function () {
+        console.log("on progress speachToText");
     }
-    xmlHttp.onload=function(){
-        txt=this.responseText;
-        document.getElementById("output").innerHTML=txt;
+    xmlHttp.onload = function () {
+        txt = this.responseText;
+        document.getElementById("output").innerHTML = txt;
+        document.getElementsByClassName("loader")[0].style.display = "none";
     }
     xmlHttp.send(data);
+};
 
-});
-
-Text_to_Speach.addEventListener("click",function()
-{
-    if(txt=="")
-    {
-      alert("Record your voice and covert speach ot text");
+async function EnglishToFrench() {
+    if (blob === null) {
+        stopRecording();
     }
-
+    if (txt === "") {
+        await speachToText(true);
+    }
+    document.getElementsByClassName("loader")[0].style.display = "block";
     var xmlHttp = new XMLHttpRequest();
-    xmlHttp.onload = function(e) {
+    xmlHttp.open("POST", 'http://127.0.0.1:8000/translate', true);
+    xmlHttp.onprogress = function () {
+        console.log("on progress inside EnglishToFrench");
+    }
+    xmlHttp.onload = function () {
+        french_output = this.responseText
+        document.getElementsByClassName("loader")[0].style.display = "none";
+        document.getElementById("transOutput").innerHTML = french_output;
+    };
+    xmlHttp.send(txt);
+
+};
+function TextToSpeach() {
+    if (french_output == "") {
+        alert("First Translate");
+        return;
+    }
+    document.getElementsByClassName("loader")[0].style.display = "block";
+    var xmlHttp = new XMLHttpRequest();
+    xmlHttp.onload = function (e) {
         var myBuffer = base64DecToArr(this.response).buffer;
-        text_blob = new Blob([myBuffer], {type: 'audio/wav'});
+        text_blob = new Blob([myBuffer], { type: 'audio/wav' });
         var url = window.URL.createObjectURL(text_blob);
         var audio = new Audio(url);
+        document.getElementsByClassName("loader")[0].style.display = "none";
         audio.play();
-    };      
-      xmlHttp.open( "POST",'http://127.0.0.1:5000/text-speach', async=false );
-      xmlHttp.send(txt); 
-});
+    };
+    xmlHttp.open("POST", 'http://127.0.0.1:8000/text-speach', async = true);
+    xmlHttp.send(french_output);
+}
 
 
 function flattenArray(channelBuffer, recordingLength) {
@@ -230,3 +237,8 @@ function writeUTFBytes(view, offset, string) {
         view.setUint8(offset + i, string.charCodeAt(i));
     }
 }
+
+
+
+
+

@@ -14,16 +14,23 @@ class predict_class:
            :return: predicted english sentece
         """
 
-        sentence = [english_tokenizer.word_index[word] for word in sentence.split()]
-        sentence = pad_sequences([sentence],maxlen=max_len,padding='post')
-        # sentence = pad_sequences([sentence], maxlen=preproc_english_sentences.shape[-1],padding='post')
-        sentence = model.predict(sentence, len(sentence))
+
+        sentence_token=[]
+        
+        for word in sentence.split(" "):
+            if not english_tokenizer.word_index.get(word):
+                return "some words that you spoke are not in my vocabulary"
+            else:
+                sentence_token.append(english_tokenizer.word_index.get(word))    
+        print(sentence_token);
+        sentence_token=pad_sequences([sentence_token],maxlen=max_len,padding='post')        
+        sentence_token = model.predict(sentence_token, len(sentence_token))
         # reshaping because after prediction size is (1,21,345)
-        sentence = sentence.reshape(21, 345)
+        sentence_token = sentence_token.reshape(21, 345)
 
         #object of preprocessing class
         prep=preprocessing()
 
-        res = prep.logits_to_text(sentence, french_tokenizer)
+        res = prep.logits_to_text(sentence_token, french_tokenizer)
 
         return res

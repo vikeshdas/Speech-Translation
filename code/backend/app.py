@@ -18,6 +18,7 @@ from SentencePrediction import MainClass
 os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "/home/jai/Documents/projects/translator/jai-dev-mlconsole-poc.json"
 
 app = Flask(__name__)
+md=MainClass()
 CORS(app)
 cors = CORS(app, resources={r"*": {"origins": "*"}})
 
@@ -76,7 +77,6 @@ def text_to_speech(french_text):
 @app.route("/text-speach",methods=['POST'])
 def text_to_speach_conversion():
     txt=request.data
-    print(txt)
     speach=text_to_speech(str(txt))
    
     return base64.b64encode(speach)
@@ -109,15 +109,14 @@ def func1():
 def func():
     sentence=request.data
     sentence = sentence.decode()
-    md=MainClass()
+    print("SENTENCE IS :",sentence)
     sentence=md.predictsentence(sentence)
-    print("tranlate sentence",sentence)
     return sentence;
 
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, port = 8000)
 
 
 """
