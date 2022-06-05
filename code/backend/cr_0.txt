@@ -1,0 +1,11 @@
+
+Done
+->model should be loaded when app.py starts not for individual predictions
+->remove any files that are not necessary for taking predictions
+->remove sentence prediction file, use prediction file
+->remove ffmpeg conversion  don't create subprocess to convert  use some python ->package  there might be ffmpeg for python  try to use it
+->no spelling errors should be there
+->remove unnecessary comments and print statements -> use the logging module instead of print statements
+->add doc string for all files,all doc strings should be more informative
+->make text to speech client and speech to text client global -> choose wisely on other clients -> which ones to make global or not
+->modify imports as mentioned in google style guide

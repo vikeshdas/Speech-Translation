@@ -1,0 +1,165 @@
+body{
+    background-color: rgb(212, 230, 230);
+}
+/* #startRecordingButton:active{
+    background-color: aqua;
+} */
+
+
+.onstartButton{
+    background-color: #ffffff;
+    color: #FF0000;
+    border-color: #000000;
+    font-size:50px;
+    height: 20%;
+    width: 16%;
+    padding: 10px 10px;
+    border-radius: 50%;
+    text-align: center;
+    border: 2px solid;
+}
+
+#start_stop{
+    margin-top: 30px;
+    margin-bottom: 30px;
+    width: 50%;
+    color: white;
+    padding: 14px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    width:100%;
+    text-align: center; 
+}
+#conversion{
+    margin-top: 30px;
+    margin-bottom: 30px;
+    width: 100%;
+    color: white;
+    padding: 14px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    text-align: center; 
+}
+
+
+#speech-text{
+    background-color: #04AA6D;
+    color: white;
+    padding: 10px 10px;
+    border: none;
+    border-radius: 15px;
+    margin-left: 5px;
+}
+#stopRecordingButton{
+    /* margin-left: 60px; */
+    background-color: #04AA6D;
+    color: white;
+    padding: 10px 10px;
+    border: none;
+    border-radius: 15px;
+    margin-left: 5px;
+    margin-right: 5px;
+   
+}
+#text-speech{
+    margin-bottom: 30px;
+    width: 60%;
+    background-color: #04AA6D;
+    color: white;
+    padding: 14px 20px;
+    border: none;
+    border-radius: 15px;
+    cursor: pointer;
+    text-align: center; 
+}
+#playButton{
+    margin-top: 30px;
+    margin-bottom: 30px;
+    margin-left: 150px;
+    width: 50%;
+    background-color: #04AA6D;
+    color: white;
+    padding: 14px 20px;
+    border: none;
+    border-radius: 15px;
+    cursor: pointer;
+    /* text-align: center; */
+}
+#send{
+    margin-bottom: 30px;
+    width: 60%;
+    background-color: #04AA6D;
+    color: white;
+    padding: 14px 20px;
+    border: none;
+    border-radius: 15px;
+    cursor: pointer;
+    text-align: center; 
+}
+#output{
+    color: aliceblue;
+}
+#transOutput{
+    color: aliceblue;
+}
+#col1{
+    border-radius: 25px;
+    border-color: rgb(247, 246, 246);
+    border-style: solid;
+    background-color: rgb(220, 217, 217);
+}
+
+
+
+* {
+    margin: 0;
+    padding: 0;
+  }
+  
+  .loader {
+    display: none;
+    top: 5%;
+    left: 50%;
+    position: absolute;
+    transform: translate(-50%, -50%);
+  }
+  
+  .loading {
+
+    border: 16px solid #c2a1a1;
+    border-radius: 50%;
+    border-top: 16px solid #3498db;
+    width: 50px;
+    height:50px;
+    -webkit-animation: spin 1s linear infinite; /* Safari */
+    animation: spin 2s linear infinite;
+  }
+  
+  
+  @keyframes spin {
+    0% {
+      transform: rotate(0deg);
+    }
+  
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+
+  .parent{
+      margin-top: 100px;
+  }
+#startRecordingButton{
+    background-color: #807d7d;
+    color: #000000;
+    font-size:50px;
+    height: 20%;
+    width: 16%;
+    padding: 10px 10px;
+    border-radius: 50%;
+    text-align: center;
+    border: 2px solid;
+
+}
