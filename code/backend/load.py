@@ -2,8 +2,6 @@
     model have translate english to french, speech to text conversion, text to text conversion methods,these methods are used by flask api for english to french translation
 """
 
-import os
-
 import base64
 from flask import request
 from google.cloud import speech

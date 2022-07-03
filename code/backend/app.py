@@ -3,6 +3,7 @@
     has routes for speech to text conversion, text to text translation
 """
 
+import os
 
 from flask import Flask
 from flask_cors import CORS
