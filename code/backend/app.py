@@ -19,16 +19,19 @@ os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = config.credential_path
 
 @app.route("/text-speech", methods=['POST'])
 def text_speech():
+    obj=Load()
     return obj.text_to_speech_conversion()
 
 
 @app.route("/speech-text", methods=['POST', 'GET'])
 def speech_to_text():
+    obj=Load()
     return obj.speech_tot_ext_conversion()
 
 
 @app.route("/translate", methods=['POST', 'GET'])
 def englsi_to_french_translate():
+    obj=Load()
     return obj.translate()
 
 if __name__ == '__main__':
