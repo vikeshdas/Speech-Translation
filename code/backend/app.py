@@ -30,5 +30,5 @@ def englsi_to_french_translate():
 
 if __name__ == '__main__':
     obj = Load()
-    app.run(debug=True, port=8000)
+    app.run(debug=True)
 
