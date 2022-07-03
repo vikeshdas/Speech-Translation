@@ -1,0 +1,14 @@
+autopep8==1.6.0
+beautifulsoup4==4.11.1
+Flask==2.1.1
+Flask-Cors==3.0.10
+google-cloud-speech==2.13.1
+google-cloud-texttospeech==2.11.0
+gunicorn==20.1.0
+ipykernel==6.13.0
+jupyter==1.0.0
+jupyterlab==3.3.4
+scikit-learn==1.0.2
+scipy
+tensorflow==2.6.0
+
