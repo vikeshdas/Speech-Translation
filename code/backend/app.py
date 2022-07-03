@@ -35,6 +35,6 @@ def englsi_to_french_translate():
     return obj.translate()
 
 if __name__ == '__main__':
-    obj = Load()
+    # obj = Load()
     app.run(debug=True)
 
