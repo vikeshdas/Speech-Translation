@@ -6,6 +6,7 @@
 
 from flask import Flask
 from flask_cors import CORS
+import config
 
 from load import Load
 
@@ -13,6 +14,7 @@ from load import Load
 app = Flask(__name__)
 CORS(app)
 cors = CORS(app, resources={r"*": {"origins": "*"}})
+os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = config.credential_path
 
 @app.route("/text-speech", methods=['POST'])
 def text_speech():

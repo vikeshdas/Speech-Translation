@@ -21,7 +21,6 @@ class Load:
        Load the trained model form disk and create object of Prediction calss to translate english to french 
     """
     def __init__(self):
-        os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = config.credential_path
         self.text_client = texttospeech.TextToSpeechClient()
         self.speech_client = speech.SpeechClient()
         self.model = tf.keras.models.load_model("../../trained_model")
