@@ -12,6 +12,9 @@ let speech_to_Text;
 let Text_to_speech;
 let french_text;
 
+let backend_ip="104.155.141.115";
+let backend_port="5000";
+
 /*
 * this class initialize all the varibles
 */ 
@@ -207,7 +210,7 @@ async function speechToText(flag) {
     var data = new FormData();
     data.append("file", obj.blob);
     var xmlHttp = new XMLHttpRequest();
-    xmlHttp.open("POST", 'http://127.0.0.1:8000/speech-text', flag);
+    xmlHttp.open("POST", "http://" + backend_ip + ":" + backend_port + "/speech-text", flag);
 
     xmlHttp.onprogress = function () {
         console.log("on progress speechToText");
@@ -236,7 +239,7 @@ async function EnglishToFrench() {
 
     document.getElementsByClassName("loader")[0].style.display = "block";
     var xmlHttp = new XMLHttpRequest();
-    xmlHttp.open("POST", 'http://127.0.0.1:8000/translate', true);
+    xmlHttp.open("POST", "http://" + backend_ip + ":" + backend_port + "/translate", true);
     xmlHttp.onprogress = function () {
         console.log("on progress inside EnglishToFrench");
     }
@@ -275,7 +278,7 @@ function TextTospeech() {
         document.getElementsByClassName("loader")[0].style.display = "none";
         audio.play();
     };
-    xmlHttp.open("POST", 'http://127.0.0.1:8000/text-speech', async = true);
+    xmlHttp.open("POST", "http://" + backend_ip + ":" + backend_port + "/text-speech", true);
     xmlHttp.send(obj.french_output);
 }
 
@@ -315,14 +318,4 @@ window.addEventListener('load', (event) => {
     Text_to_speech.addEventListener("click", TextTospeech);
 
 });
-
-
-
-
-
-
-
-
-
-
 
